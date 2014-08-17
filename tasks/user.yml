@@ -17,6 +17,7 @@
     comment="Ross Timson"
     generate_ssh_key=yes
     ssh_key_bits=4096
+    ssh_key_comment="{{ user }}@{{ hostname }}"
 
 - name: Install sudoers config (NOPASSWD)
   template: src=templates/sudoers_user.j2
