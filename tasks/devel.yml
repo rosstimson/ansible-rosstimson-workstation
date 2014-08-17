@@ -74,3 +74,18 @@
     - libffi-devel
 
 # }}}
+
+# Python ------------------------------------------------------------------- {{{
+
+# Install a handful of Python eggs
+- name: Install python eggs
+  pip: name={{ item }}
+  with_items:
+    - Fabric
+    - Sphinx
+    - awscli
+    - virtualenv
+    - virtualenvwrapper
+    - yolk
+
+# }}}
