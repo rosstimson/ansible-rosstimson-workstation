@@ -1,0 +1,35 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Install Vim (GTK) build dependencies
+  yum: name={{ item }} state=present
+  with_items:
+    - mercurial
+    - ncurses-devel
+    - gtk2-devel
+    - libX11-devel
+    - libXt-devel
+    - ctags
+    - luajit-devel
+
+- name: Clone Vim source code repo
+  hg: repo={{ repo_vim }}
+      dest=/usr/local/src/vim
+
+- name: Compile Vim from source
+  shell: ./configure --with-features=huge --prefix /usr/local --enable-gui --with-tlib=ncurses --enable-pythoninterp --enable-multibyte --enable-cscope --enable-luainterp --with-luajit --disable-tclinterp --disable-netbeans --with-compiledby='Ross Timson <ross@rosstimson.com>' && make && make install
+  args:
+    chdir: /usr/local/src/vim
+    creates: /usr/local/bin/vim
+
+- name: Install utility packages I use with Vim.
+  yum: name={{ item }} state=present
+  with_items:
+    - par
+    - the_silver_searcher

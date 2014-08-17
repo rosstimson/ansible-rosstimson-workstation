@@ -1,0 +1,33 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+# Set the hostname
+- name: Set hostname
+  hostname: name={{ hostname }}
+
+# No more beeping pleeeeese!
+- name: Blacklist the PC speaker, stop beeping
+  copy: src=files/modprobe_blacklist
+    dest=/etc/modprobe.d/blacklist
+    owner=root
+    group=root
+    mode=0644
+
+- name: Install the 'Development tools' package group
+  yum: name="@Development tools" state=present
+
+- name: Install some essential packages
+  yum: name={{ item }} state=present
+  with_items:
+    - curl
+    - git
+    - tmux
+    - tree
+    - wget
+    - zsh

@@ -1,0 +1,34 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Setup 'rosstimson' user
+  user: name=rosstimson
+    uid=1000
+    group=rosstimson
+    groups=wheel
+    append=yes
+    shell=/bin/zsh
+    comment="Ross Timson"
+    generate_ssh_key=yes
+    ssh_key_bits=4096
+
+- name: Install sudoers config (NOPASSWD)
+  template: src=templates/sudoers_user.j2
+    dest=/etc/sudoers.d/{{ user }}
+    owner=root
+    group=root
+    mode=0440
+
+# I'm forever setting up the same directory structure and some of my configs
+# such as $GOPATH expect these to be in place.
+- name: Create GOPATH directory
+  file: path="{{ user_home }}/Code/Go"
+    owner="{{ user }}"
+    group="{{ user }}"
+    state=directory

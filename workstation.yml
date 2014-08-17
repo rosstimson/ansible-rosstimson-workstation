@@ -1,0 +1,35 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- hosts: localhost
+  connection: local
+  sudo: yes
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - include: tasks/base.yml
+    - include: tasks/user.yml
+    - include: tasks/vim.yml
+    - include: tasks/docker.yml
+    - include: tasks/apps.yml
+    - include: tasks/devel.yml
+
+- hosts: localhost
+  connection: local
+  remote_user: rosstimson
+  sudo: no
+
+  vars_files:
+    - vars/main.yml
+
+  tasks:
+    - include: tasks/dotfiles.yml
+    - include: tasks/user_ruby.yml

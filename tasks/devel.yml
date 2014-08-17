@@ -1,0 +1,76 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Install golang package
+  yum: name=golang state=present
+
+- name: Install Java / OpenJDK (1.8 headless)
+  yum: name=java-1.8.0-openjdk-headless state=present
+
+# NodeJS ------------------------------------------------------------------- {{{
+- name: Install nodejs
+  yum: name=nodejs state=present
+
+# Grab latest NPM as Fedora NodeJS doesn't seem to have it built in and
+# the npm package seems to have issues, probably bugs in older version
+# of npm rather than the package itself.
+- name: Download npm installer script from npmjs.org
+  get_url: url=https://www.npmjs.org/install.sh dest=/tmp/npm-install.sh mode=0755
+
+- name: Install npm via installer script
+  command: ./npm-install.sh
+  args:
+    chdir: /tmp
+    creates: /bin/npm
+
+- name: Install some npm packages globally
+  npm: name={{ item }} global=yes state=present
+  with_items:
+    - bower
+    - coffee-script
+    - grunt-cli
+    - gulp
+
+# }}}
+
+# Ruby --------------------------------------------------------------------- {{{
+- name: Download chruby
+  get_url:
+    url: https://github.com/postmodern/chruby/archive/v{{ chruby_version }}.tar.gz
+    dest: /tmp/chruby-{{ chruby_version }}.tar.gz
+
+- name: Untar chruby
+  command: tar -xzf chruby-{{ chruby_version }}.tar.gz chdir=/tmp
+
+- name: Install chruby
+  command: make install
+  args:
+    chdir: /tmp/chruby-{{ chruby_version }}
+    creates: /usr/local/share/chruby
+
+- name: Download ruby-install
+  get_url:
+    url: https://github.com/postmodern/ruby-install/archive/v{{ ruby_install_version }}.tar.gz
+    dest: /tmp/ruby-install-{{ ruby_install_version }}.tar.gz
+
+- name: Untar ruby-install
+  command: tar -xzf ruby-install-{{ ruby_install_version }}.tar.gz chdir=/tmp
+
+- name: Install ruby-install
+  command: make install
+  args:
+    chdir: /tmp/ruby-install-{{ ruby_install_version }}
+    creates: /usr/local/bin/ruby-install
+
+- name: Install packages commonly needed for gems
+  yum: name={{ item }} state=present
+  with_items:
+    - libffi-devel
+
+# }}}

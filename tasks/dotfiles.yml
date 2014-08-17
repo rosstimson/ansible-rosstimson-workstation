@@ -1,0 +1,27 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Clone dotfiles repo
+  git: repo={{ repo_dotfiles }}
+       dest={{ dotfiles_dir }}
+
+- name: Link dotfiles
+  file: src={{ dotfiles_dir }}/{{ item }} dest={{ user_home }}/{{ item }} owner={{ user }} state=link
+  with_items:
+    - .gemrc
+    - .gitconfig
+    - .gitignore
+    - .gvimrc
+    - .tmux.conf
+    - .vim
+    - .vimrc
+    - .zsh
+    - .zshenv
+    - .zsh_nocorrect
+    - .zshrc

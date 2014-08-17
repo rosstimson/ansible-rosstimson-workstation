@@ -1,0 +1,13 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Install Ruby (MRI) 2.1.2
+  command: ruby-install ruby 2.1.2 creates="{{ user_home }}/.rubies/ruby-2.1.2"
+
+# TODO Work out a decent way to install gems under the newly installed Ruby.

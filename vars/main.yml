@@ -1,0 +1,21 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+hostname: amalthea
+user: rosstimson
+user_home: /home/{{ user }}
+dotfiles_dir: "{{ user_home }}/dotfiles"
+
+# Repos
+repo_dotfiles: https://github.com/rosstimson/dotfiles.git
+repo_vim: https://vim.googlecode.com/hg
+
+# Program versions
+chruby_version: 0.3.8
+ruby_install_version: 0.4.3

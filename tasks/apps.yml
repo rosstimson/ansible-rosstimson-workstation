@@ -1,0 +1,17 @@
+# Encoding:: utf-8
+#
+# (c) 2014, Ross Timson <ross@rosstimson.com>
+#
+# Ansible Playbook:: rosstimson-workstation
+# License:: WTFPL
+#
+
+---
+- name: Install web browsers
+  yum: name={{ item }} state=present
+  with_items:
+    - firefox
+    - google-chrome-stable
+
+- name: Install Hotot Twitter client
+  yum: name=hotot-gtk state=present
