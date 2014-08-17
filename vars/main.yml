@@ -9,6 +9,7 @@
 ---
 hostname: amalthea
 user: rosstimson
+password: $6$mYtRSfYdViJkDw.o$p4X8PZVBBflOoN9w2q9ECDtaOTEJv3kpwjImrQ28AHpp3Xk8BrykbGerjj3Roni1keaRxZuqza/2hpdG9bDCa.
 user_home: /home/{{ user }}
 dotfiles_dir: "{{ user_home }}/dotfiles"
 

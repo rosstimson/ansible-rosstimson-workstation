@@ -13,6 +13,7 @@
     group=rosstimson
     groups=wheel
     append=yes
+    password={{password}}
     shell=/bin/zsh
     comment="Ross Timson"
     generate_ssh_key=yes
