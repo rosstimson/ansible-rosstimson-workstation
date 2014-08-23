@@ -84,6 +84,8 @@
     - Fabric
     - Sphinx
     - awscli
+    - jedi
+    - pylama
     - virtualenv
     - virtualenvwrapper
     - yolk
